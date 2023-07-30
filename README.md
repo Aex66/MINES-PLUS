@@ -10,6 +10,8 @@ You have to fill the inputs, not all of them, some are optional like description
 <a href="#modules" target="blank"><img align="center" src="assets/create_menu.png" height="50" /></a>
 
 ###### Once you have created your first mine, a new button will show up in the **MINES+** menu. This is the mine you just created, this will show you information about the mine and it has some buttons to execute multiple functions such as:
+<a href="#modules" target="blank"><img align="center" src="assets/see_menu.png" height="50" /></a><br>
+
 -Add block: Add a new block with its custom chance to appear.
 -Edit mine: Lets you to edit the information you put when creating this mine.
 -Delete mine: This will delete the mine.
@@ -97,7 +99,7 @@ emitter.on('mineReset', (res) => {
 ```
 
 # Download
-<a href="https://www.mediafire.com/file/y6qmg6174es9wo6/KITS_API_v2.3.mcaddon/file" target="blank"><img align="center" src="https://cdn.worldvectorlogo.com/logos/mediafire-1-3.svg" height="50" /></a>
+<a href="https://www.mediafire.com/file/a9hck1c5w3xa7eq/MINES%252B_v1.0.mcaddon/file" target="blank"><img align="center" src="https://cdn.worldvectorlogo.com/logos/mediafire-1-3.svg" height="50" /></a>
 
 # MY SOCIAL NETWORKS
 <a href="https://www.youtube.com/channel/UCcb6TseFTpboFwgZM737IGA" target="blank"><img align="center" src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png" height="50" /></a>

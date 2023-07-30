@@ -1,123 +1,101 @@
-# KITS-API
-[KITS API](https://mcpedl.com/kits-api/) is an addon for [MINECRAFT BEDROCK](https://www.microsoft.com/es-ec/p/minecraft-for-windows/9nblggh2jhxj?activetab=pivot:overviewtab) which will allow you to create and claim KITS in your world with much ease
+# MINES+
+MINES+ is an addon for [MINECRAFT BEDROCK](https://www.microsoft.com/es-ec/p/minecraft-for-windows/9nblggh2jhxj?activetab=pivot:overviewtab) which will allow you to create and mines in your world! 
 # HOW TO SETUP
-When starting the KITS API, if you are a server administrator, you must add the "Admin" tag to be able to create, delete, view kit information, and claim them without limitations. Otherwise, you will not be able to create, delete, view kit information or claim them without limitations! Now that you have this clear, run the command **"ka?kits"** in chat to open the **KITS API** form
+When starting MINES+, if you are a server administrator, you must add the "Admin" tag to be able to create a new mine. Otherwise, you won't be able to create mines. Now that you have this clear, run the command **".mines"** in chat to open the **MINES+** form
 
 # Modules
 
-<a href="#modules"><img align="center" src="assets/CREATE KIT.png" height="50" /></a>
+###### Lets start creating a new mine: <br>
+You have to fill the inputs, not all of them, some are optional like description, display, icon and reset message.
+<a href="#modules" target="blank"><img align="center" src="assets/create_menu.png" height="50" /></a>
 
-###### When creating a kit you have several options and settings, such as: <br>
--Name <br>
--Description <br>
--Required tag (The player must have a tag in order to claim the kit) <br>
--Cooldown (The player has to wait to claim the kit again) [ex: 2 days] <br>
--Price (The player has to pay for the kit) <br>
--OnlyOnce (The kit can only be claimed once per player) <br>
-**_The kit will take all the items in your inventory (Except for off-hand slots and armor slots)._**
-
-<a href="#modules" target="blank"><img align="center" src="assets/REMOVE KIT.png" height="50" /></a>
-
-###### This module will allow you to remove a kit from the database, to delete it you have to select it in the dropdown the kit you want to remove (all the current kits on the server will appear in the dropdown) and followed by this write "CONFIRM" in capital letters and without the quotes and the kit will be eliminated, if you write anything else nothing will happen, it will only return you to the form <br>
-
-<a href="#modules" target="blank"><img align="center" src="assets/VIEW INFO.png" height="50" /></a>
-
-###### When you want to see a kit, you will get a list of the existing kits and clicking send will take you to a form where you can see the following information about the kit:
--Description <br>
--Required tag <br>
--Cooldown <br>
--Price <br>
--OnlyOnce <br>
--ItemCount (The number of slots that the kit items occupy) <br>
--Created At (When the kit was created) <br>
-
-<a href="#modules" target="blank"><img align="center" src="assets/RECLAIM.png" height="50" /></a>
-###### In order to claim a kit, your server members will have to pass all limitations before they can claim it.
--If the kit has "RequiredTag" the member must have the tag set for that kit, in order to claim it. <br>
--If the kit has a "Cooldown", the player will be able to claim it but to be able to claim it again they will have to wait until the cooldown ends <br>
--if the kit has the flag "onlyOnce" when the player claims the kit, they will not be able to claim it again.
--If the kit has a price, the player will have to have enough money to be able to claim it and it will be discounted, if he does not have enough money, nothing will be discounted and the kit will not be given to him <br>
-**Note: If you are an administrator, none of these limitations will bother you when you want to claim the kit.** <br>
+###### Once you have created your first mine, a new button will show up in the **MINES+** menu. This is the mine you just created, this will show you information about the mine and it has some buttons to execute multiple functions such as:
+-Add block: Add a new block with its custom chance to appear.
+-Edit mine: Lets you to edit the information you put when creating this mine.
+-Delete mine: This will delete the mine.
+-Reset mine: This will reset the mine if it doesn't have a timer.
+-Remove Block: Lets you to remove a block from the mine
+-Reset Blocks: This will delete all the blocks in the mine
 
 # FOR DEVS
-If you have some knowledge in javascript or typescript, I will show you how you can execute code when some KITS API event is fired
+If you have some knowledge in javascript or typescript, I will show you how you can execute code when some MINES+ event is fired
 
-# KITS API EVENTS 
+# MINES+ EVENTS
 
-## kitCreated
+## MINE CREATED
+```scripts/plugins/mines/main.js```
+
 ```ts
-Script.on('kitCreated', (res) => {
-   res.kitName
-   res.player
-   res.kitData
-   res.executionTime
+emitter.on('mineCreated', (res) => {
+    /**
+     * THIS EVENT FIRES WHEN A MINE IS CREATED
+     * Arguments:
+     * data: Data of the mine that has been created
+     * player: Player who created the mine
+     */
 })
 ```
-This event will be triggered when a kit is successfully created. <br>
-Propertys: <br>
--kitName: string (The name of the kit that has been created) <br>
--player: @minecraft/server.Player (The player who created the kit) <br>
--kitData: KitInformation (All the information of the kit that has been created. If you use the typescript version, all the properties are typed to make it easier for you.) <br>
--executionTime: string (Time it took to create the kit) <br><br>
 
-## kitDeleted
+## MINE DELETED
 ```ts
-Script.on('kitDeleted', (res) => {
-   res.kitName
-   res.player
-   res.kitData
-   res.executionTime
+emitter.on('mineDeleted', (res) => {
+    /**
+     * THIS EVENT FIRES WHEN A MINE IS DELETED
+     * Arguments:
+     * data: Data of the mine that has been deleted
+     * player: Player who deleted the mine
+     * isReset: Boolean representing if the delete was for a reset; example: add new blocks.
+     */
 })
 ```
-This event will be triggered when a kit is successfully deleted. <br>
-Propertys: <br>
--kitName: string (The name of the kit that has been deleted) <br>
--player: @minecraft/server.Player (The player who deleted the kit) <br>
--kitData: KitInformation (All the information of the kit that has been deleted. If you use the typescript version, all the properties are typed to make it easier for you.) <br>
--executionTime: string (Time it took to delete the kit) <br><br>
 
-## kitClaimed
+## MINE EDITED
 ```ts
-Script.on('kitClaimed', (res) => {
-   res.kitName
-   res.player
-   res.executionTime
+emitter.on('mineEdited', (res) => {
+    /**
+     * THIS EVENT FIRES WHEN A MINE IS EDITED
+     * Arguments:
+     * data: New data of the mine that has been edited
+     * player: Player who edited the mine
+     * oldData: Old data of the mine that has been edited
+     */
 })
 ```
-This event will be triggered when a kit is successfully claimed. <br>
-Propertys: <br>
--kitName: string (The name of the kit that has been claimed) <br>
--player: @minecraft/server.Player (The player who claimed the kit) <br>
--executionTime: string (Time it took to send the kit to the player) <br><br>
 
-## kitPurchased
+## MINE BLOCKS CHANGE
 ```ts
-Script.on('kitPurchased', (res) => {
-   res.kitName
-   res.player
-   res.price
-   res.executionTime
+emitter.on('mineBlocksChange', (res) => {
+    /**
+     * THIS EVENT FIRES WHEN MINE BLOCKS ARE CHANGED
+     * Arguments:
+     * data: Data of the mine
+     * player: Player who added the block
+     * block: Block or blocks that are added
+     * chance: Chance or chances of the block(s)
+     */
+    res.player.sendMessage('§l§aMINES+ > §r §eSuccess§r')
 })
 ```
-This event will trigger when a kit is successfully purchased. <br>
-Propertys: <br>
--kitName: string (The name of the kit that has been purchased) <br>
--player: @minecraft/server.Player (The player who purchased the kit) <br>
--price: number (The price of the kit that has been purchased) <br>
--executionTime: string (Time it took to send the kit to the player) <br><br>
 
-**_EXAMPLE_** <br>
-```main.ts```
+## MINE RESET
 ```ts
-import { Location } from "@minecraft/server"
-import Script from './lib/Script.js'
-Script.on('kitCreated', (res) => {
-    const { x, y, z } = res.player.location
-    const entity = res.player.dimension.spawnEntity('minecraft:armor_stand', new Location(x, y, z))
-    entity.nameTag = `You have created the kit ${res.kitName} succesfully`
-    entity.kill()
+emitter.on('mineReset', (res) => {
+    /**
+     * THIS EVENT FIRES WHEN A MINE IS RESET
+     * Arguments:
+     * data: Data of the mine that has been reset
+     * player: Player who reset the mine (optional)
+     */
+    if (res?.player) res.player.sendMessage(`§l§aMINES+ > §r§eYou have reset the mine §r§7${res.data?.display ? res.data?.display : res.data.name}§r`)
+    if (res.data?.reset?.message)
+        world.sendMessage(res.data.reset.message)
+    else world.sendMessage(`§l§aMINES+ > §r§eMine §r§7${res.data?.display ? res.data?.display : res.data.name}§r §ehas been reset!§r`);
+    const box = BoundingBoxUtils.createValid(res.data.from, res.data.to)
+    const max = BlockVolumeUtils.getMax({ from: res.data.from, to: res.data.to })
+    world.getAllPlayers().filter(p => BoundingBoxUtils.isInside(box, p.location)).forEach(p => p.teleport(new Vector(p.location.x, max.y + 1, p.location.z)))
 })
 ```
+
 # Download
 <a href="https://www.mediafire.com/file/y6qmg6174es9wo6/KITS_API_v2.3.mcaddon/file" target="blank"><img align="center" src="https://cdn.worldvectorlogo.com/logos/mediafire-1-3.svg" height="50" /></a>
 

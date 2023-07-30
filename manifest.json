@@ -1,0 +1,35 @@
+{
+    "format_version": 2,
+    "header": {
+        "name": "§l§aMINES+§r§7 v1.0",
+        "description": "pack.description",
+        "uuid": "e0fee1a0-acad-4d7b-a40b-027202993291",
+        "version": [ 1, 0, 0 ],
+        "min_engine_version": [ 1, 19, 50 ]
+    },
+    "modules": [
+        {
+            "type": "data",
+            "uuid": "8e53723a-9261-46d6-8f4e-35115c3e789e",
+            "version": [ 1, 0, 0 ]
+        },
+        {
+            "description": "Javascript module",
+            "type": "script", 
+            "language": "javascript",
+            "uuid": "00bbc7f6-1091-4539-9d8b-99e1ffcd8fd9",
+            "version": [ 0, 0, 1 ],
+            "entry": "scripts/main.js"
+        }
+    ],
+    "dependencies": [
+        {
+			"module_name": "@minecraft/server",
+			"version": "1.4.0-beta"
+		},
+		{
+			"module_name": "@minecraft/server-ui",
+			"version": "1.2.0-beta"
+		}
+    ]
+}

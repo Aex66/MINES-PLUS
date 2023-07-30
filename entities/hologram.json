@@ -1,0 +1,51 @@
+{
+	"format_version": "1.16.0",
+	"minecraft:entity": {
+		"description": {
+			"identifier": "mc:hologram",
+			"is_spawnable": true,
+			"is_summonable": true,
+			"is_experimental": false
+		},
+		"component_groups": {
+			"despawn": {
+				"minecraft:instant_despawn": {}
+			}
+		},
+		"components": {
+			"minecraft:type_family": { "family": [ "hologram", "inanimate" ] },
+			"minecraft:fire_immune": true,
+			"minecraft:scale": {
+				"value": 0.0
+			},
+            "minecraft:nameable": {
+                "alwaysShow": true,
+                "allowNameTagRenaming": true
+            },
+			"minecraft:damage_sensor": {
+				"triggers": [
+					{
+						"cause": "all",
+						"deals_damage": false
+					}
+				]
+			},
+			"minecraft:collision_box": {
+				"width": 0.3,
+				"height": 0.3
+			},
+			"minecraft:physics": {
+				"has_collision": false,
+				"has_gravity": false
+			},
+			"minecraft:health": {
+				"value": 1
+			}
+		},
+		"events": {
+			"event:despawn": {
+				"add": { "component_groups": ["despawn"] }
+			}
+		}
+	}
+}

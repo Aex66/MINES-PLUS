@@ -7,7 +7,7 @@ When starting MINES+, if you are a server administrator, you must add the "Admin
 
 ###### Lets start creating a new mine: <br>
 You have to fill the inputs, not all of them, some are optional like description, display, icon and reset message.<br>
-<a href="#modules" target="blank"><img align="center" src="assets/create_menu.png" height="50" /></a><br>
+<a href="#modules" target="blank"><img align="center" src="assets/create_menu.png" width="200" /></a><br>
 
 ###### Once you have created your first mine, a new button will show up in the **MINES+** menu. This is the mine you just created, this will show you information about the mine and it has some buttons to execute multiple functions such as:
 <a href="#modules" target="blank"><img align="center" src="assets/see_menu.png" height="50" /></a><br>

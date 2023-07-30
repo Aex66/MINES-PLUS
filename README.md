@@ -12,12 +12,12 @@ You have to fill the inputs, not all of them, some are optional like description
 ###### Once you have created your first mine, a new button will show up in the **MINES+** menu. This is the mine you just created, this will show you information about the mine and it has some buttons to execute multiple functions such as:
 <a href="#modules" target="blank"><img align="center" src="assets/see_menu.png" height="50" /></a><br>
 
--Add block: Add a new block with its custom chance to appear.
--Edit mine: Lets you to edit the information you put when creating this mine.
--Delete mine: This will delete the mine.
--Reset mine: This will reset the mine if it doesn't have a timer.
--Remove Block: Lets you to remove a block from the mine
--Reset Blocks: This will delete all the blocks in the mine
+-Add block: Add a new block with its custom chance to appear.<br>
+-Edit mine: Lets you to edit the information you put when creating this mine.<br>
+-Delete mine: This will delete the mine.<br>
+-Reset mine: This will reset the mine if it doesn't have a timer.<br>
+-Remove Block: Lets you to remove a block from the mine.<br>
+-Reset Blocks: This will delete all the blocks in the mine.<br>
 
 # FOR DEVS
 If you have some knowledge in javascript or typescript, I will show you how you can execute code when some MINES+ event is fired

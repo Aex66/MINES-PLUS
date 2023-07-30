@@ -1,5 +1,5 @@
 # MINES+
-MINES+ is an addon for [MINECRAFT BEDROCK](https://www.microsoft.com/es-ec/p/minecraft-for-windows/9nblggh2jhxj?activetab=pivot:overviewtab) which will allow you to create and mines in your world! 
+[MINES+](https://www.mediafire.com/file/a9hck1c5w3xa7eq/MINES%252B_v1.0.mcaddon/file) is an addon for [MINECRAFT BEDROCK](https://www.microsoft.com/es-ec/p/minecraft-for-windows/9nblggh2jhxj?activetab=pivot:overviewtab) which will allow you to create and mines in your world! 
 # HOW TO SETUP
 When starting MINES+, if you are a server administrator, you must add the "Admin" tag to be able to create a new mine. Otherwise, you won't be able to create mines. Now that you have this clear, run the command **".mines"** in chat to open the **MINES+** form
 

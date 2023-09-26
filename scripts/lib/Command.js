@@ -2,7 +2,7 @@ import { system } from "@minecraft/server";
 import { world } from "@minecraft/server";
 import { adminTag } from "../config.js";
 import { getPrefix } from "../extras/Utils";
-class Command {
+export class Command {
     /**
      * Register a new command!
      * @param {ICommandInfo} info Register info for the command
@@ -66,7 +66,6 @@ class Command {
     }
 }
 Command.rC = [];
-export { Command };
 world.beforeEvents.chatSend.subscribe(data => {
     const sender = [data.sender].flat()[0], message = [data.message].flat()[0];
     if (data.message.startsWith(getPrefix())) {

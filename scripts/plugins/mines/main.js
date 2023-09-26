@@ -15,21 +15,21 @@ emitter.on('mineReset', (res) => {
     if ((_d = (_c = res.data) === null || _c === void 0 ? void 0 : _c.reset) === null || _d === void 0 ? void 0 : _d.message)
         world.sendMessage(res.data.reset.message);
     else
-        world.sendMessage(`§l§aMINES+ > §r§eMine §r§7${((_e = res.data) === null || _e === void 0 ? void 0 : _e.display) ? (_f = res.data) === null || _f === void 0 ? void 0 : _f.display : res.data.name}§r §ehas been reset!`);
+        world.sendMessage(`§l§aMINES+ > §r§eMine §r§7${((_e = res.data) === null || _e === void 0 ? void 0 : _e.display) ? (_f = res.data) === null || _f === void 0 ? void 0 : _f.display : res.data.name}§r §ehas been reset!§r`);
     const box = BoundingBoxUtils.createValid(res.data.from, res.data.to);
     const max = BlockVolumeUtils.getMax({ from: res.data.from, to: res.data.to });
     world.getAllPlayers().filter(p => BoundingBoxUtils.isInside(box, p.location)).forEach(p => p.teleport(new Vector(p.location.x, max.y + 1, p.location.z)));
 });
 emitter.on('mineBlocksChange', (res) => {
     /**
-     * THIS EVENT FIRES WHEN A MINE BLOCKS ARE CHANGED
+     * THIS EVENT FIRES WHEN MINE BLOCKS ARE CHANGED
      * Arguments:
      * data: Data of the mine
      * player: Player who added the block
      * block: Block or blocks that are added
      * chance: Chance or chances of the blocks
      */
-    res.player.sendMessage('§l§aMINES+ > §r §eSuccess');
+    res.player.sendMessage('§l§aMINES+ > §r §eSuccess§r');
 });
 emitter.on('mineCreated', (res) => {
     /**
@@ -41,7 +41,7 @@ emitter.on('mineCreated', (res) => {
 });
 emitter.on('mineDeleted', (res) => {
     /**
-     * THIS EVENT FIRES WHEN A MINE IS CREATED
+     * THIS EVENT FIRES WHEN A MINE IS DELETED
      * Arguments:
      * data: Data of the mine that has been deleted
      * player: Player who deleted the mine

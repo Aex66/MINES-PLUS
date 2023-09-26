@@ -1,9 +1,9 @@
 {
     "format_version": 2,
     "header": {
-        "name": "§l§aMINES+§r§7 v1.0",
+        "name": "§l§aMINES+§r§7 v1.5",
         "description": "pack.description",
-        "uuid": "e0fee1a0-acad-4d7b-a40b-027202993291",
+        "uuid": "c82adc49-1006-4735-b268-59f12ab67612",
         "version": [ 1, 0, 0 ],
         "min_engine_version": [ 1, 19, 50 ]
     },
@@ -25,7 +25,7 @@
     "dependencies": [
         {
 			"module_name": "@minecraft/server",
-			"version": "1.4.0-beta"
+			"version": "1.6.0-beta"
 		},
 		{
 			"module_name": "@minecraft/server-ui",

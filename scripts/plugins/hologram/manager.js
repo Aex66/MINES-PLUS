@@ -3,7 +3,7 @@ export function createHologram(id, text, location) {
     var _a;
     if ((_a = getHologram(id)) === null || _a === void 0 ? void 0 : _a.length)
         return;
-    const hologram = location.dimension.spawnEntity('mc:hologram', new Vector(location.x, location.y, location.z));
+    const hologram = location.dimension.spawnEntity('rot:hologram', new Vector(location.x, location.y, location.z));
     hologram.addTag('hologram:' + id);
     hologram.nameTag = text;
     return hologram;
@@ -15,10 +15,10 @@ export function deleteHologram(id) {
     hologram.forEach(hd => hd.triggerEvent('event:despawn'));
 }
 export function getHologram(id) {
-    return world.getDimension('overworld').getEntities({ tags: ['hologram:' + id], type: 'mc:hologram' });
+    return world.getDimension('overworld').getEntities({ tags: ['hologram:' + id], type: 'rot:hologram' });
 }
 export function getAllHolograms() {
-    return world.getDimension('overworld').getEntities({ type: 'mc:hologram' });
+    return world.getDimension('overworld').getEntities({ type: 'rot:hologram' });
 }
 export function updateHologram(id, text) {
     const hologram = getHologram(id);

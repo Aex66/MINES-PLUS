@@ -22,4 +22,4 @@ export let settingsReg = null;
 })();
 import './plugins/commands/import.js';
 import './plugins/mines/main.js';
-//import './plugins/hologram/main.js'
+import './plugins/hologram/main.js';

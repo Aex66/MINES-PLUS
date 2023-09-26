@@ -1,9 +1,10 @@
-import { BlockVolumeUtils, MinecraftBlockTypes, world } from "@minecraft/server";
+import { BlockTypes, BlockVolumeUtils, world } from "@minecraft/server";
 import { ActionFormData, MessageFormData, ModalFormData } from "@minecraft/server-ui";
 import { addMineBlock, addMineBlocks, createMine, deleteMine, getAllMineNames, getMineData, getMineTime, select } from "./manager.js";
 import { ID, sleep } from "../../extras/Utils.js";
 import { emitter } from "./emitter.js";
 import { MS } from "../../extras/Converters.js";
+import { ChestGui } from "../../lib/chestgui.js";
 export function mine(plr) {
     const names = getAllMineNames();
     const form = new ActionFormData();
@@ -55,19 +56,20 @@ function create(plr) {
             dimension: plr.dimension.id,
             blocks: [],
             creator: plr.name,
-            defaultBlock: MinecraftBlockTypes.stone.id,
+            defaultBlock: "minecraft:stone",
             reset: { message: rm, sound: undefined },
             date: Date.now()
         }, plr);
     });
 }
 function see(plr, name) {
-    var _a, _b, _c, _d;
+    var _a, _b, _c;
     const data = getMineData(name);
     const id = data.id;
     const form = new ActionFormData();
     form.title(`§r${(_a = data === null || data === void 0 ? void 0 : data.display) !== null && _a !== void 0 ? _a : name}`);
-    form.body(`§l§dMINE INFORMATION:§r\n§bName: §e${data.name}§r\n§bDisplay Name: §r${(_b = data === null || data === void 0 ? void 0 : data.display) !== null && _b !== void 0 ? _b : '§7None'}§r\n§bDescription: §e${(_c = data === null || data === void 0 ? void 0 : data.description) !== null && _c !== void 0 ? _c : '§7None'}§r\n§bResets every: §e${(data === null || data === void 0 ? void 0 : data.every) ? `${(data === null || data === void 0 ? void 0 : data.every) / 1000} Seconds` : '§cNo automatic reset'}§r\n§bFrom: §e${data === null || data === void 0 ? void 0 : data.from.x} §c${data === null || data === void 0 ? void 0 : data.from.y} §a${data === null || data === void 0 ? void 0 : data.from.z}§r\n§bTo: §e${data === null || data === void 0 ? void 0 : data.to.x} §c${data === null || data === void 0 ? void 0 : data.to.y} §a${data === null || data === void 0 ? void 0 : data.to.z}§r\n§bCreator: §e${data === null || data === void 0 ? void 0 : data.creator}§r\n§bCreation Date: §e${MS(Date.now() - (data === null || data === void 0 ? void 0 : data.date))} ago§r${(data === null || data === void 0 ? void 0 : data.every) ? `\n§bWill reset in: §e${MS(getMineTime(data.name) - Date.now())}§r` : ''}\n§bBlocks: §r\n${((_d = data === null || data === void 0 ? void 0 : data.blocks) === null || _d === void 0 ? void 0 : _d.length) ? data.blocks.map(b => `§dType: §e${b.type} §dChance: §e${b.chance}§r`).join('\n') : '§cNo blocks!'}`);
+    form.body(`§l§dMINE INFORMATION:§r\n§bName: §e${data.name}§r\n§bDisplay Name: §r${(_b = data === null || data === void 0 ? void 0 : data.display) !== null && _b !== void 0 ? _b : '§7None'}§r\n§bDescription: §e${(_c = data === null || data === void 0 ? void 0 : data.description) !== null && _c !== void 0 ? _c : '§7None'}§r\n§bResets every: §e${(data === null || data === void 0 ? void 0 : data.every) ? `${(data === null || data === void 0 ? void 0 : data.every) / 1000} Seconds` : '§cNo automatic reset'}§r\n§bFrom: §e${data === null || data === void 0 ? void 0 : data.from.x} §c${data === null || data === void 0 ? void 0 : data.from.y} §a${data === null || data === void 0 ? void 0 : data.from.z}§r\n§bTo: §e${data === null || data === void 0 ? void 0 : data.to.x} §c${data === null || data === void 0 ? void 0 : data.to.y} §a${data === null || data === void 0 ? void 0 : data.to.z}§r\n§bCreator: §e${data === null || data === void 0 ? void 0 : data.creator}§r\n§bCreation Date: §e${MS(Date.now() - (data === null || data === void 0 ? void 0 : data.date))} ago§r${(data === null || data === void 0 ? void 0 : data.every) ? `\n§bWill reset in: §e${MS(getMineTime(data.name) - Date.now())}§r` : ''}`);
+    form.button('§l§dSEE BLOCKS');
     form.button('§l§dADD BLOCK');
     form.button('§l§dEDIT MINE');
     form.button('§l§dDELETE MINE');
@@ -80,12 +82,15 @@ function see(plr, name) {
             return mine(plr);
         switch (res.selection) {
             case 0:
-                addBlock(plr, name);
+                new RenderBlocks(name).show(plr);
                 break;
             case 1:
-                edit(plr, name);
+                addBlock(plr, name);
                 break;
             case 2:
+                edit(plr, name);
+                break;
+            case 3:
                 {
                     const form = new MessageFormData();
                     form.title('§l§bDELETE MINE');
@@ -101,13 +106,13 @@ function see(plr, name) {
                     });
                 }
                 break;
-            case 3:
+            case 4:
                 reset(plr, name);
                 break;
-            case 4:
+            case 5:
                 removeBlock(plr, name);
                 break;
-            case 5: {
+            case 6: {
                 const form = new MessageFormData();
                 form.title('§l§bRESET BLOCKS');
                 form.body(`§aAre you sure you want to reset the blocks of mine §r§7${(_b = data === null || data === void 0 ? void 0 : data.display) !== null && _b !== void 0 ? _b : data.name}?`);
@@ -123,6 +128,67 @@ function see(plr, name) {
             }
         }
     });
+}
+class RenderBlocks {
+    constructor(name) {
+        this.name = name;
+        this.currentPage = 1;
+        this.maxItems = 45;
+    }
+    show(plr) {
+        var _a, _b;
+        const data = getMineData(this.name);
+        this.items = data.blocks;
+        const page = (_a = this.currentPage) !== null && _a !== void 0 ? _a : 1;
+        const start = (page - 1) * this.maxItems;
+        const end = start + this.maxItems;
+        const items = this.items.slice(start, end);
+        const chest = new ChestGui();
+        chest.setType('large');
+        chest.title(`${(_b = data === null || data === void 0 ? void 0 : data.display) !== null && _b !== void 0 ? _b : data.name}§r`);
+        items.forEach((item, i) => {
+            //@ts-ignore
+            chest.item(i, item.type, [`§7Chance: ${item.chance}`, '§6Click to change chance'], item.type, 1);
+        });
+        chest.item(45, '§cPrevious page§r', this.currentPage > 1 ? [] : ['§7No previous page§r'], 'minecraft:barrier', 1);
+        chest.item(49, `§6Current Page: ${this.currentPage}§r`, [], 'minecraft:glass', 1, true);
+        chest.item(53, '§cNext page§r', this.currentPage > ~~(this.currentPage / Math.ceil(this.items.length / this.maxItems)) ? ['§cThere is no more pages§r'] : [], 'minecraft:barrier', 1);
+        chest.show(plr).then(async (res) => {
+            if (res.canceled)
+                return see(plr, data.name);
+            if (res.selection === 45) {
+                this.previousPage();
+                return this.show(plr);
+            }
+            if (res.selection === 49)
+                return;
+            if (res.selection === 53) {
+                this.nextPage();
+                return this.show(plr);
+            }
+            const selected = items[res.selection];
+            if (!selected)
+                return;
+            const block = new ModalFormData();
+            block.textField('Chance', '0');
+            const [chance] = (await block.show(plr)).formValues;
+            if (isNaN(chance))
+                return plr.sendMessage('§l§aMINES+ >§r §cChance must be a number!');
+            addMineBlock(this.name, selected.type, Number(chance), plr);
+            this.show(plr);
+        });
+    }
+    nextPage() {
+        const totalPages = Math.ceil(this.items.length / this.maxItems);
+        if (this.currentPage > totalPages)
+            return;
+        this.currentPage++;
+    }
+    previousPage() {
+        if (this.currentPage < 2)
+            return this.currentPage = 1;
+        this.currentPage--;
+    }
 }
 function edit(plr, name) {
     var _a, _b;
@@ -162,7 +228,7 @@ function edit(plr, name) {
             dimension: (_b = data.dimension) !== null && _b !== void 0 ? _b : 'overworld',
             blocks: data.blocks,
             creator: plr.name,
-            defaultBlock: MinecraftBlockTypes.stone.id,
+            defaultBlock: "minecraft:stone",
             reset: { message: rm, sound: undefined },
             date: (_c = data === null || data === void 0 ? void 0 : data.date) !== null && _c !== void 0 ? _c : Date.now()
         };
@@ -197,7 +263,7 @@ const blockList = [
     'minecraft:diorite',
     'minecraft:andesite',
     'minecraft:netherrack',
-    'minecraft:end_stone',
+    'minecraft:end_stone'
 ];
 function addBlock(plr, name) {
     var _a;
@@ -206,6 +272,7 @@ function addBlock(plr, name) {
     form.title(`§l§bADD NEW BLOCK - §r${(_a = data === null || data === void 0 ? void 0 : data.display) !== null && _a !== void 0 ? _a : name}`);
     form.button('§l§dBLOCK LIST');
     form.button('§l§dTYPE ID');
+    form.button('§l§dINVENTORY');
     form.show(plr).then((res) => {
         if (res.canceled)
             return see(plr, name);
@@ -215,6 +282,9 @@ function addBlock(plr, name) {
                 break;
             case 1:
                 addBlockType(plr, name);
+                break;
+            case 2:
+                addBlocksInventory(plr, name);
                 break;
         }
     });
@@ -254,7 +324,7 @@ function addBlockList(plr, name) {
         if (!chance || isNaN(chance))
             return plr.sendMessage('§l§aMINES+ >§r §cChance must be a number!');
         chance = Number(chance);
-        const type = MinecraftBlockTypes.get(blockId);
+        const type = BlockTypes.get(blockId);
         if (!type)
             return plr.sendMessage('§l§aMINES+ >§r §cThat is not a block!');
         addMineBlock(name, type.id, chance, plr);
@@ -278,13 +348,32 @@ function addBlockType(plr, name) {
         if (!chance || isNaN(chance))
             return plr.sendMessage('§l§aMINES+ >§r §cChance must be a number!');
         chance = Number(chance);
-        const type = MinecraftBlockTypes.get(blockId);
+        const type = BlockTypes.get(blockId);
         if (!type)
             return plr.sendMessage('§l§aMINES+ >§r §cThat is not a block!');
         addMineBlock(name, type.id, chance, plr);
         await sleep(5);
         addBlockType(plr, name);
     });
+}
+function addBlocksInventory(plr, name) {
+    const data = getMineData(name);
+    const inv = plr.getComponent('inventory').container;
+    const blocks = [];
+    for (let i = 0; i < inv.size; i++) {
+        const item = inv.getItem(i);
+        if (!item)
+            continue;
+        if (!BlockTypes.get(item.typeId))
+            continue;
+        blocks.push({ type: item.typeId, chance: 0 });
+    }
+    if (!blocks.length)
+        return plr.sendMessage('§l§aMINES+ >§r §cYou don\'t have any block in your inventory!');
+    data.blocks.forEach(block => blocks.push(block));
+    plr.sendMessage('§l§aMINES+ >§r §eDon\'t forget to configure the chances!');
+    inv.clearAll();
+    addMineBlocks(name, blocks.map(b => b.type), blocks.map(b => b.chance), plr);
 }
 function reset(plr, name) {
     var _a;
@@ -308,7 +397,7 @@ function reset(plr, name) {
             [...BlockVolumeUtils.getBlockLocationIterator({ from: data.from, to: data.to })].forEach((loc) => {
                 if (invalid)
                     return;
-                const type = MinecraftBlockTypes.get(select(data));
+                const type = BlockTypes.get(select(data));
                 if (!type)
                     invalid = true;
                 world.getDimension(data.dimension).getBlock(loc).setType(type);

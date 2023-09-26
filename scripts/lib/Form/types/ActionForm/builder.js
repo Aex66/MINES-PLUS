@@ -57,24 +57,4 @@ export class ActionFormData extends EventEmitter {
         });
         return this;
     }
-    forceShow(user, callback) {
-        const player = typeof user == 'string' ? [...world.getPlayers()].find(player => player.nameTag == user || player.name == user) : user;
-        this.IActionFormData.show(player).then(MojangResponse => {
-            const ModalResponse = new ActionFormResponse({
-                form: this.IActionFormData,
-                components: this.components,
-                MojangResponse,
-                player,
-            });
-            this.emit('playerResponse', ModalResponse);
-            if (MojangResponse.cancelationReason === 'userBusy')
-                this.show(user, callback);
-            if (!this.reShowed)
-                return (player.sendMessage('§cClose any UI to show the form'),
-                    this.reShowed = true);
-            if (!callback)
-                return;
-            callback(ModalResponse);
-        });
-    }
 }

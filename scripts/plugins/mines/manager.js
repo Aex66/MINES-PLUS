@@ -1,4 +1,4 @@
-import { BlockVolumeUtils, MinecraftBlockTypes, system, world } from "@minecraft/server";
+import { BlockVolumeUtils, BlockTypes, system, world } from "@minecraft/server";
 import Database from "../../lib/Database.js";
 import { sleep } from "../../extras/Utils.js";
 import { emitter } from "./emitter.js";
@@ -49,7 +49,11 @@ export async function addMineBlock(name, type, chance, player) {
         return player.sendMessage(`§l§aMINES+ >§r §cThis server does not have a mine called §a${name}`);
     const data = getMineData(name);
     emitter.emit('mineBlocksChange', { player, data, block: type, chance });
-    data.blocks.push({ type, chance });
+    const ind = data.blocks.findIndex(el => el.type === type);
+    if (ind || ind === 0)
+        data.blocks.splice(ind, 1, { type, chance });
+    else
+        data.blocks.push({ type, chance });
     deleteMine(name, player, true);
     mines.write(name, data);
     await sleep(5);
@@ -60,7 +64,11 @@ export async function addMineBlocks(name, types, chances, player) {
     const data = getMineData(name);
     emitter.emit('mineBlocksChange', { player, data, block: types, chance: chances });
     const newBlocks = [];
-    types.forEach((type, index) => newBlocks.push({ type, chance: chances[index] }));
+    types.forEach((type, index) => {
+        if (newBlocks.some(el => el.type === type))
+            return;
+        newBlocks.push({ type, chance: chances[index] });
+    });
     data.blocks = newBlocks;
     deleteMine(name, player, true);
     mines.write(name, data);
@@ -110,7 +118,7 @@ system.runInterval(() => {
             [...BlockVolumeUtils.getBlockLocationIterator({ from: data.from, to: data.to })].forEach((loc) => {
                 if (invalid)
                     return;
-                const type = MinecraftBlockTypes.get(select(data));
+                const type = BlockTypes.get(select(data));
                 if (!type)
                     invalid = true;
                 world.getDimension(data.dimension).getBlock(loc).setType(type);
